@@ -19,12 +19,10 @@ const JokeCard = () => {
             console.log(err);
         }
     };
-
     useEffect(() => {
         fetchJokes();
     }, []);
 
-    return <></>;
+    return <>{!joke ? <div>Loading...</div> : <p>{joke.setup}</p>}</>;
 };
-
 export default JokeCard;
