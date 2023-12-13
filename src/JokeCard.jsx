@@ -3,6 +3,7 @@ import { useState } from "react";
 
 const JokeCard = () => {
     const [joke, setJoke] = useState();
+    const [secondPartJoke, setSecondPartJoke] = useState("");
 
     const fetchJokes = async () => {
         try {
@@ -23,6 +24,21 @@ const JokeCard = () => {
         fetchJokes();
     }, []);
 
-    return <>{!joke ? <div>Loading...</div> : <p>{joke.setup}</p>}</>;
+    const handleClick = () => setSecondPartJoke(joke.delivery);
+
+    return (
+        <>
+            {!joke ? (
+                <div>Loading...</div>
+            ) : (
+                <div>
+                    <h1>Programming jokes</h1>
+                    <p>{joke.setup}</p>
+                    <button onClick={handleClick}>Answer</button>
+                    <p>{secondPartJoke}</p>
+                </div>
+            )}
+        </>
+    );
 };
 export default JokeCard;
