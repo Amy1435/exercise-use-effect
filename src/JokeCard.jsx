@@ -4,6 +4,7 @@ import { useState } from "react";
 const JokeCard = () => {
     const [joke, setJoke] = useState();
     const [secondPartJoke, setSecondPartJoke] = useState("");
+    const [btnAnswerClicked, setBtnAnswerClicked] = useState(false);
 
     const fetchJokes = async () => {
         try {
@@ -14,7 +15,6 @@ const JokeCard = () => {
             if (obj.error) {
                 throw new Error("Error, there is an error in the fetch");
             }
-            console.log(obj);
             setJoke(obj);
         } catch (err) {
             console.log(err);
@@ -24,7 +24,16 @@ const JokeCard = () => {
         fetchJokes();
     }, []);
 
-    const handleClick = () => setSecondPartJoke(joke.delivery);
+    const handleClick = () => {
+        setSecondPartJoke(joke.delivery);
+        setBtnAnswerClicked(true);
+    };
+
+    const handleReload = () => {
+        fetchJokes();
+        setBtnAnswerClicked(false);
+        setSecondPartJoke("");
+    };
 
     return (
         <>
@@ -34,7 +43,11 @@ const JokeCard = () => {
                 <div>
                     <h1>Programming jokes</h1>
                     <p>{joke.setup}</p>
-                    <button onClick={handleClick}>Answer</button>
+                    {!btnAnswerClicked ? (
+                        <button onClick={handleClick}>Answer</button>
+                    ) : (
+                        <button onClick={handleReload}>Reload</button>
+                    )}
                     <p>{secondPartJoke}</p>
                 </div>
             )}
